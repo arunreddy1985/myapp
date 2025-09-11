@@ -14,8 +14,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          persist-credentials: false  # Avoid using default runner credentials
-          token: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub
+          persist-credentials: false
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       # Step 2: Set up Node.js
       - name: Set up Node.js
@@ -39,7 +39,7 @@ jobs:
 
       # Step 5: Copy files to EC2
       - name: Copy files to EC2
-        uses: appleboy/scp-action@v0.1.4
+        uses: appleboy/scp-action@v0.1.7  # Updated to a valid version
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
@@ -52,7 +52,7 @@ jobs:
 
       # Step 6: SSH into EC2 and deploy
       - name: SSH into EC2 and run commands
-        uses: appleboy/ssh-action@0.1.6
+        uses: appleboy/ssh-action@v0.1.7  # Updated to a valid version
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
