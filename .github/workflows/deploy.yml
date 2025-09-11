@@ -14,6 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
+          submodules: false          # Disable submodules completely
           persist-credentials: false
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -39,7 +40,7 @@ jobs:
 
       # Step 5: Copy files to EC2
       - name: Copy files to EC2
-        uses: appleboy/scp-action@v0.1.7  # Updated to a valid version
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
@@ -52,7 +53,7 @@ jobs:
 
       # Step 6: SSH into EC2 and deploy
       - name: SSH into EC2 and run commands
-        uses: appleboy/ssh-action@v0.1.7  # Updated to a valid version
+        uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
