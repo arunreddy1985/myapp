@@ -8,15 +8,22 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest   # GitHub runner
+
     steps:
+      # Step 1: Checkout code from GitHub
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false  # Avoid using default runner credentials
+          token: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub
 
+      # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'   # Match your EC2 Node.js version
 
+      # Step 3: Install backend and frontend dependencies
       - name: Install dependencies
         run: |
           cd backend
@@ -24,11 +31,13 @@ jobs:
           cd ../frontend
           npm install
 
+      # Step 4: Build frontend
       - name: Build frontend
         run: |
           cd frontend
           npm run build
 
+      # Step 5: Copy files to EC2
       - name: Copy files to EC2
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -41,28 +50,27 @@ jobs:
             frontend/build/*
           target: /home/ec2-user/myapp/
 
+      # Step 6: SSH into EC2 and deploy
       - name: SSH into EC2 and run commands
-        uses: appleboy/ssh-action@v0.1.6
+        uses: appleboy/ssh-action@0.1.6
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           port: 22
           script: |
-            # Navigate to app folder
-            cd /home/ec2-user/myapp
+            # Navigate to backend folder
+            cd /home/ec2-user/myapp/backend
 
             # Install backend dependencies
-            cd backend
             npm install
 
-            # Run migrations if any
+            # Run migrations for users123 table
             node scripts/run-migrations.js
 
-            # Start backend using PM2
+            # Restart backend using PM2
             pm2 stop all || true
             pm2 start index.js --name "backend-app"
 
             # Optional: serve frontend via Nginx or any web server
             # sudo cp -r ../frontend/build/* /usr/share/nginx/html/
-
