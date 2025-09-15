@@ -4,7 +4,12 @@ const { Client } = require('pg');
 
 async function run() {
   const client = new Client({
-    connectionString: process.env.DATABASE_URL
+    connectionString: process.env.DATABASE_URL || 
+      "postgres://postgres:arunredg@arunrdspg.chg8q40wm1m2.ap-southeast-6.rds.amazonaws.com:5432/arunrdspg",
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
   });
 
   await client.connect();
@@ -42,7 +47,7 @@ async function run() {
   }
 
   await client.end();
-  console.log('All migrations applied.');
+  console.log('✅ All migrations applied.');
 }
 
 run().catch(err => {
@@ -50,6 +55,4 @@ run().catch(err => {
   process.exit(1);
 });
 
-// trigger deploy
-// trigger deploy after submodule fix
-// trigger deploy after fixing submodule
+// redeploy test
