@@ -1,0 +1,21 @@
+-- Create table
+CREATE TABLE countries (
+    id SERIAL PRIMARY KEY,
+    country_name VARCHAR(100) NOT NULL,
+    country_code CHAR(2) NOT NULL UNIQUE,
+    continent VARCHAR(50) NOT NULL,
+    population BIGINT
+);
+
+-- Insert sample records
+INSERT INTO countries (country_name, country_code, continent, population) VALUES
+('United States', 'US', 'North America', 331002651),
+('Canada', 'CA', 'North America', 37742154),
+('Brazil', 'BR', 'South America', 212559417),
+('United Kingdom', 'GB', 'Europe', 67886011),
+('Germany', 'DE', 'Europe', 83783942),
+('India', 'IN', 'Asia', 1380004385),
+('China', 'CN', 'Asia', 1439323776),
+('Australia', 'AU', 'Oceania', 25499884),
+('South Africa', 'ZA', 'Africa', 59308690),
+('New Zealand', 'NZ', 'Oceania', 4822233);
