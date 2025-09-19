@@ -49,7 +49,7 @@ jobs:
 
             # Restart backend using PM2
             pm2 stop all || true
-            pm2 start index.js --name "backend-app"
+            pm2 start server.js --name "backend-app"
 
             # Optional: serve frontend via Nginx or any web server
             # sudo cp -r ../frontend/build/* /usr/share/nginx/html/
