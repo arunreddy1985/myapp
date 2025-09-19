@@ -18,27 +18,7 @@ jobs:
           persist-credentials: false
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 2: Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'   # Match your EC2 Node.js version
-
-      # Step 3: Install backend and frontend dependencies
-      - name: Install dependencies
-        run: |
-          cd backend
-          npm install
-          cd ../frontend
-          npm install
-
-      # Step 4: Build frontend
-      - name: Build frontend
-        run: |
-          cd frontend
-          npm run build
-
-      # Step 5: Copy files to EC2
+        # Step 5: Copy files to EC2
       - name: Copy files to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
