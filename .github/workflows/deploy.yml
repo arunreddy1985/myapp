@@ -46,9 +46,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           port: 22
-          source: |
-            backend/**
-            frontend/build/**
+          source: "./"
           target: /home/ec2-user/myapp/
 
       # Step 6: SSH into EC2 and deploy
